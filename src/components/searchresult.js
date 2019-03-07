@@ -17,7 +17,7 @@ const Searchresult = ({restaurant, ...props}) => {
     }
 
     const list = window.location.pathname.slice('/list/'.length);
-    const url = 'http://sues-macbook-pro.local:3001';
+    const url = 'http://localhost:3001';
 
     fetch(`${url}/addtofavorites/${list}`, {
       method: 'POST',
@@ -31,7 +31,7 @@ const Searchresult = ({restaurant, ...props}) => {
         else throw new Error('Already added to list')
       })
       .then(res => {
-        props.addToList(res);  
+        props.addToList(res);
       })
       .then(props.updateSearchResults([]))
       .catch(err => console.log(err));

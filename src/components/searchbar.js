@@ -45,7 +45,7 @@ class Searchbar extends Component {
 
 
   searchRestaurants = (userInput) => {
-    const url = 'http://sues-macbook-pro.local:3001';
+    const url = 'http://localhost:3001';
 
     const searchTerm = {
       "term": userInput,
@@ -69,25 +69,25 @@ class Searchbar extends Component {
   }
 
   handleChange = (e) => {
-    
+
     this.setState({searchTerm: e.target.value}, () => {
       if (this.state.searchTerm.length === 0) this.props.updateSearchResults([]);
       else this.throttleSearch(this.searchRestaurants(this.state.searchTerm), 2000);
     })
   }
 
-  throttleSearch = (func, wait) => {  
-    let lastTime = 0; 
+  throttleSearch = (func, wait) => {
+    let lastTime = 0;
     let lastResult; // should return the last computed result when throttled
-    return function throttled () { 
+    return function throttled () {
       let timeSinceLastRun = Date.now() - lastTime;
       if (timeSinceLastRun >= wait) {
-        lastResult = func.apply(this, arguments); 
+        lastResult = func.apply(this, arguments);
         lastTime = Date.now();
       }
       console.log('lastResult', lastResult);
       return lastResult;
-    }; 
+    };
   };
 
   handleBackspace = (e) => {
@@ -100,12 +100,12 @@ class Searchbar extends Component {
         <img src={logo} alt="Logo" className="yumlist-logo"/>
 
         <input type="text" onKeyDown={this.handleBackspace} autoComplete="off" id="restaurant-search" placeholder="Search restaurants" value={this.state.searchInput} onChange={this.handleChange}/>
-        
+
         <div className="location">
           <p className="current-location">Barcelona, ES</p>
           <p className="change-location">Change Location</p>
         </div>
-          <SearchList results={this.props.searchList} /> 
+          <SearchList results={this.props.searchList} />
       </div>
     )
   }

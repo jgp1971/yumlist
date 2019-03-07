@@ -15,7 +15,7 @@ class Yumlist extends Component {
       listId: this.props.match.params.id, // this is working!
       listName: '',
       listDetails: '',
-      url: 'http://sues-macbook-pro.local:3001'
+      url: 'http://localhost:3001'
     };
   }
 
@@ -23,7 +23,7 @@ class Yumlist extends Component {
 
     fetch(`${this.state.url}/${listId}`)
       .then(res => res.json())
-      .then(res => { 
+      .then(res => {
         this.setState({listName: res.listname, listDetails: res.listdetails }, () => {
           this.loadRestaurantsfromList(this.state.listId) //remember you need to pass a callback to this.setState
         })})
@@ -48,7 +48,7 @@ class Yumlist extends Component {
     let cta;
     const list = this.props.favoritesList;
     const items = list.map(result => <FavoriteRestaurant rating={this.renderRating} score={this.score} list={this.state.listId} key={result.id} restaurant={result} removeFromList={this.props.removeFromList}/>);
-    
+
     if (items.length) {
       cta = <button className="share-list" onClick={this.shareList}>Share List</button>
     } else {
@@ -56,9 +56,9 @@ class Yumlist extends Component {
     }
 
     return (
-    
+
         <div className="yumlist-body-wrapper">
-          
+
           <Searchbar/>
 
           <Modal show={this.state.openDialog} onClose={this.shareList} listId={this.state.listId}/>
@@ -77,7 +77,7 @@ class Yumlist extends Component {
 
     )
   }
-  
+
 }
 
 const mapStateToProps = (state) => ({
