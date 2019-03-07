@@ -26,10 +26,10 @@ class CreateList extends Component {
   }
 
   saveList = () => {
-    const url = 'http://sues-macbook-pro.local:3001';
+    const url = 'http://localhost:3001';
     const listName = this.state.listTitle;
     const listDetails = this.state.listDescription;
-    
+
     fetch(`${url}/createlist`, {
       method: 'POST',
       headers: {
@@ -52,7 +52,7 @@ class CreateList extends Component {
 
   render() {
     return (
-        <div class="create-list">
+        <div className="create-list">
           <img src={logo} alt="Logo" className="yumlist-logo"/>
           <div className="create-list-wrapper">
             <h2>Create New List</h2>
@@ -62,16 +62,16 @@ class CreateList extends Component {
             </div>
 
             <button className="save-list" onClick={this.saveList}>Save List</button>
-    
+
           </div>
         </div>
     )
 
- 
+
 
   }
 
-  
+
 
 }
 

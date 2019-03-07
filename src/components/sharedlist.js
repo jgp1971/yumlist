@@ -19,10 +19,10 @@ class SharedList extends Component {
         voted: '',
         createUserDialog: true,
         votesSubmitted: false, // to open a dialog to confirm sharing
-        url: 'http://sues-macbook-pro.local:3001'
+        url: 'http://localhost:3001'
       }
     }
-  
+
     componentDidMount() {
       const list = this.state.listId;
       this.getListInfo(list);
@@ -44,10 +44,10 @@ class SharedList extends Component {
 
     fetch(`${this.state.url}/${listId}`)
       .then(res => res.json())
-      .then(res => { 
+      .then(res => {
         this.setState({listName: res.listname, listDetails: res.listdetails }, () => {
           // console.log('restaurants in list', res);
-          this.getRestaurants(this.state.listId) 
+          this.getRestaurants(this.state.listId)
         })})
   }
 
@@ -79,7 +79,7 @@ class SharedList extends Component {
     return (
 
       <div className="sharedlist-wrapper">
-        
+
         <VotesSubmitted show={this.state.votesSubmitted} onClose={this.closeDialog}/>
 
         <CreateUserModal createUser={this.createUser} show={this.state.createUserDialog} listId={this.state.listId} listDetails={this.state.listDetails} listName={this.state.listName}/>
@@ -96,7 +96,7 @@ class SharedList extends Component {
     )
   }
 }
-  
+
 
 const mapStateToProps = (state) => ({
   favoritesList: state.favoritesList

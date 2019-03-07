@@ -2,10 +2,10 @@ import React from 'react';
 import emoji from './../assets/emoji-icon.png';
 
 class SharedRestaurant extends React.Component  {
-  
+
   state = {
     voted : false,
-    url : 'http://sues-macbook-pro.local:3001',
+    url : 'http://localhost:3001',
     showEmoji: ''
   }
 
@@ -50,7 +50,7 @@ render () {
   } else {
     file = Math.floor(restaurant.rating) + '_half';
   }
-  
+
   return (
     <div className="favorite-restaurant">
       <div className="favorite-left">
@@ -63,11 +63,11 @@ render () {
       </div>
       <div className="favorite-right">
         <div className="favorite-rating"><img src={require(`../ratings/large/large_${file}.png`)} alt="yelp-rating" id="yelp-rating"/><div className="favorite-reviewcount"> {restaurant.review_count} Reviews </div></div>
-        
+
         <div>
           {/* <p id="current-votes">{restaurant.score} Yums </p> */}
           { this.state.voted
-            ? <img src={emoji} alt="emoji" width="45px" className="emoji"/> 
+            ? <img src={emoji} alt="emoji" width="45px" className="emoji"/>
             : null
           }
           <div>
