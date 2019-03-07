@@ -22,5 +22,4 @@ app.use(router.routes());
   });
 })()
 
-
 // app.listen(3001, () => console.log('Listening at port 3001')); // eslint-disable-line no-console

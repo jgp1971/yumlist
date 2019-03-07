@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.TEXT,
       primaryKey: true,
-      autoIncrement: true,
       allowNull: false
     },
     listname: DataTypes.TEXT,

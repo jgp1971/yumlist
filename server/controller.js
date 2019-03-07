@@ -55,7 +55,7 @@ exports.loadFavoritesFromList = async (ctx) => {
 exports.addToFavorites = async (ctx) => {
   const selectedRestaurant = ctx.request.body;
   const currentListId = ctx.params.list;
-  
+
   // first, get all restaurants in this list
   const list = await db.Lists.find({
     where: { id: currentListId },
@@ -64,11 +64,11 @@ exports.addToFavorites = async (ctx) => {
       attributes: ['id'],
     }]
   });
-  
+
   // then, check if the restaurant exists in this list
   const restaurantExistsInList = list.dataValues.Favorites.filter(restaurant => restaurant.id === selectedRestaurant.id);
   console.log('restaurant exists in the list', restaurantExistsInList)
-  
+
   if (restaurantExistsInList.length !== 0) {
     ctx.body = {
       "error": ['Already added']
@@ -76,14 +76,14 @@ exports.addToFavorites = async (ctx) => {
     ctx.status = 400;
   } else {
     try {
-      
+
       //check if the restaurant exists in the Favorites Database (main table)
       const fav = await db.Favorites.find({
         where: {
           id: selectedRestaurant.id
         }
       })
-      
+
       if (fav) {
         // if it exists, then just add it to the List
         await db.FavoritesLists.create({favoriteId: selectedRestaurant.id, listId: currentListId});
@@ -97,7 +97,7 @@ exports.addToFavorites = async (ctx) => {
         console.log(selectedRestaurant);
         ctx.status = 200;
       }
-      
+
     } catch (err) {
       console.log(err);
     }
@@ -123,7 +123,7 @@ exports.removeFromFavorites = async (ctx) => {
 
 exports.createList = async (ctx) => {
   const submittedList = ctx.request.body;
-  
+
   try {
     const newList = await db.Lists.create({
       listname: submittedList.listname,
@@ -175,18 +175,18 @@ exports.removeVote = async (ctx) => {
 
 exports.loadVotesFromAllUsers = async (ctx) => {
   const listId = ctx.params.listId;
-  
+
   try {
     const votesInList = await db.Votes.findAll({
       where: {
         list: listId
       }
     })
-    
+
     const objs = votesInList.map(res => res.dataValues);
-    
+
     // {}, value, 0/1/3/3, input array
-    function reducer(acc, currentValue, currentIndex, objs) { 
+    function reducer(acc, currentValue, currentIndex, objs) {
       // on the currentValue, check if the favoriteId exists. if it does, add 1 to its value. else, create new key
       if (acc[currentValue.favorited]) {
         acc[currentValue.favorited]++;
@@ -195,14 +195,14 @@ exports.loadVotesFromAllUsers = async (ctx) => {
       }
       return acc;
     }
-    
+
     const voteCounts = objs.reduce(reducer, {}); // returns an object where key is the restaurantId and the value is the accumulated score
     const props = Object.entries(voteCounts);
 
     const updated = props.map(prop => {
       return db.FavoritesLists.update(
-        { 
-          score: prop[1] 
+        {
+          score: prop[1]
         },
         {
         where: {
@@ -240,7 +240,7 @@ exports.loadFavoritesFromListWithScore = async (ctx) => {
     const result = favoritesOnLoad.map(res => ({
       ...res.dataValues,
       score: res.dataValues.Lists[0].FavoritesLists.score
-    }));  
+    }));
 
     ctx.body = result;
     ctx.status = 200;
@@ -252,7 +252,7 @@ exports.loadFavoritesFromListWithScore = async (ctx) => {
 
 // exports.updateVote = async (ctx) => {
 //   const { listId, restaurantId, voted } = ctx.params;
-  
+
 //   try {
 //     const selectedRestaurant = await db.FavoritesLists.findOne({
 //       where: {
