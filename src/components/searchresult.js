@@ -16,6 +16,7 @@ const Searchresult = ({restaurant, ...props}) => {
       review_count: restaurant.review_count,
     }
 
+    //REVIEW! USO DE PROPS VS THIS.PROPS
     const list = window.location.pathname.slice('/list/'.length);
     const url = 'http://localhost:3001';
 

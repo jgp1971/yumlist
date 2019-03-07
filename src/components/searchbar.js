@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SearchList from './searchlist';
 import { connect } from 'react-redux';
-import { updateSearchResults, addToList } from '../actions.js';
+import { updateSearchResults } from '../actions.js';
 import logo from './../assets/yumlist-logo.png';
 
 
@@ -119,7 +119,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateSearchResults: (results) => dispatch(updateSearchResults(results)),
-  addToList: (restaurant) => dispatch(addToList(restaurant)),
 })
 
 
