@@ -4,7 +4,7 @@ import close from './../assets/close.png';
 import { Link } from "react-router-dom";
 
 class Modal extends React.Component {
-  
+
   copyUrl = () => {
     const toCopy = document.querySelector('.list-url');
     toCopy.select();
@@ -13,13 +13,13 @@ class Modal extends React.Component {
   }
 
   render() {
-    const url = 'http://sues-macbook-pro.local:3000/share/';
+    const url = 'http://localhost:3000/share/';
 
     // Render nothing if the "show" prop is false
     if(!this.props.show) {
       return null;
     }
-    
+
     return (
       <div className="backdrop">
         <div className="modal">
@@ -32,9 +32,9 @@ class Modal extends React.Component {
             <div className="copy-url" onClick={this.copyUrl}>Copy</div>
           </div>
 
-          <Link to={`/share/${this.props.listId}`}> 
+          <Link to={`/share/${this.props.listId}`}>
             <button className="go-there">View List</button>
-          </Link>  
+          </Link>
 
           </div>
         </div>
