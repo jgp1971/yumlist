@@ -11,6 +11,10 @@
   box-sizing: border-box;
 }
 
+.blankDiv {
+  height: 35px;
+}
+
 p {
   color: white;
   display: inline-block;

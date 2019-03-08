@@ -99,18 +99,35 @@ class Searchbar extends Component {
     if (e.keyCode === 8 || e.keyCode === 46) this.props.updateSearchResults([])
   }
 
+  handleSearchBar = () => {
+    if (this.props.searchList.length===0) {
+      return (
+        <div>
+          <div className="location">
+            <p className="current-location">Barcelona, ES</p>
+            <p className="change-location">Change Location</p>
+          </div>
+          {/* Add blanck element so that results do not move searchBar */}
+          <div className="blankDiv"></div>
+        </div>
+        )
+    } else {
+      return (
+      <div>
+        <SearchList results={this.props.searchList} />
+        {/* Add blanck element so results do not move */}
+        <div className="blankDiv"></div>
+      </div>
+      )
+    }
+  }
+
   render() {
     return (
       <div className="search-fields">
         <img src={logo} alt="Logo" className="yumlist-logo" onClick={this.returnHome}/>
-
         <input type="text" onKeyDown={this.handleBackspace} autoComplete="off" id="restaurant-search" placeholder="Search restaurants" value={this.state.searchInput} onChange={this.handleChange}/>
-
-        <div className="location">
-          <p className="current-location">Barcelona, ES</p>
-          <p className="change-location">Change Location</p>
-        </div>
-        <SearchList results={this.props.searchList} />
+        {this.handleSearchBar()}
       </div>
     )
   }
