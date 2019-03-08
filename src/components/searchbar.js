@@ -3,6 +3,7 @@ import SearchList from './searchlist';
 import { connect } from 'react-redux';
 import { updateSearchResults } from '../actions.js';
 import logo from './../assets/yumlist-logo.png';
+import { withRouter } from "react-router-dom";
 
 
 class Searchbar extends Component {
@@ -68,6 +69,10 @@ class Searchbar extends Component {
       });
   }
 
+  returnHome = () => {
+    this.props.history.push('/create');
+  }
+
   handleChange = (e) => {
 
     this.setState({searchTerm: e.target.value}, () => {
@@ -97,7 +102,7 @@ class Searchbar extends Component {
   render() {
     return (
       <div className="search-fields">
-        <img src={logo} alt="Logo" className="yumlist-logo"/>
+        <img src={logo} alt="Logo" className="yumlist-logo" onClick={this.returnHome}/>
 
         <input type="text" onKeyDown={this.handleBackspace} autoComplete="off" id="restaurant-search" placeholder="Search restaurants" value={this.state.searchInput} onChange={this.handleChange}/>
 
@@ -105,7 +110,7 @@ class Searchbar extends Component {
           <p className="current-location">Barcelona, ES</p>
           <p className="change-location">Change Location</p>
         </div>
-          <SearchList results={this.props.searchList} />
+        <SearchList results={this.props.searchList} />
       </div>
     )
   }
@@ -122,4 +127,4 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Searchbar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Searchbar));

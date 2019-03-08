@@ -51,6 +51,10 @@ class SharedList extends Component {
         })})
   }
 
+  returnHome = () => {
+    this.props.history.push('/create');
+  }
+
   createUser = (username) => {
     this.setState({username: username, createUserDialog: false},  () => console.log('user created'))
   }
@@ -84,7 +88,7 @@ class SharedList extends Component {
 
         <CreateUserModal createUser={this.createUser} show={this.state.createUserDialog} listId={this.state.listId} listDetails={this.state.listDetails} listName={this.state.listName}/>
 
-        <img src={logo} alt="Logo" className="yumlist-logo"/>
+        <img src={logo} alt="Logo" className="yumlist-logo" onClick={this.returnHome}/>
         <div className="sharedlist-items">
         <h1>{this.state.listName}</h1>
         <h2>A List Made By {this.state.listDetails}</h2>
