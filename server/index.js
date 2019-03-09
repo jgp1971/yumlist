@@ -1,5 +1,9 @@
 const Koa = require('koa');
 const app = new Koa();
+
+// Uncomment next line to enable testing environment
+// process.env.NODE_ENV = 'test';
+
 const bodyParser = require('koa-bodyparser')();
 const router = require('./router');
 const cors = require('@koa/cors');

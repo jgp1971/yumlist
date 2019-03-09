@@ -1,4 +1,4 @@
-const controller = require('./controller.js');
+const controller = require('../controller.js');
 
 const mock_ctx = {};
 mock_ctx.params = {};

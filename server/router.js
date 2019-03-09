@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const ctrl = require('./controller');
-const db = require('./models/index.js');
+const db = require('./models');
 const router = new Router();
 
 const yelp = require('yelp-fusion');

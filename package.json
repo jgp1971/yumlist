@@ -1,11 +1,6 @@
 {
   "name": "yumlist",
   "version": "0.1.0",
-  "jest": {
-    "roots": [
-      "server"
-    ]
-  },
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
@@ -37,7 +32,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "client-test": "react-scripts test",
-    "server-test": "jest",
+    "server-unit-test": "jest server/spec-unit/",
+    "server-integration-test": "jest server/spec-integration/",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
