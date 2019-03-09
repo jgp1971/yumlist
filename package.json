@@ -2,7 +2,9 @@
   "name": "yumlist",
   "version": "0.1.0",
   "jest": {
-    "roots": ["server"]
+    "roots": [
+      "server"
+    ]
   },
   "private": true,
   "dependencies": {

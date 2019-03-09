@@ -1,5 +1,3 @@
-const db = require('./models/index.js');
-
 exports.searchRestaurants = async (ctx, client) => {
   const input = ctx.request.body;
   try {
@@ -88,7 +86,7 @@ exports.addToFavorites = async (ctx, db) => {
   }
 }
 
-exports.removeFromFavorites = async (ctx) => {
+exports.removeFromFavorites = async (ctx, db) => {
   const restaurantId = ctx.params.id;
   const listId = ctx.params.list;
   try {
@@ -101,11 +99,12 @@ exports.removeFromFavorites = async (ctx) => {
     ctx.status = 200;
   } catch (err) {
     console.log(err); //eslint-disable-line
+    ctx.body = err;
     ctx.status = 500;
   }
 }
 
-exports.createList = async (ctx) => {
+exports.createList = async (ctx, db) => {
   const submittedList = ctx.request.body;
 
   try {
@@ -119,11 +118,12 @@ exports.createList = async (ctx) => {
     ctx.status = 200;
   } catch (err) {
     console.log(err);
+    ctx.body = err;
     ctx.status = 500;
   }
 }
 
-exports.addVote = async (ctx) => {
+exports.addVote = async (ctx, db) => {
   const list = ctx.request.body.listId;
   const favorited = ctx.request.body.restaurantId;
   const user = ctx.request.body.username;
@@ -135,11 +135,13 @@ exports.addVote = async (ctx) => {
     })
     ctx.status = 200;
   } catch (err) {
-    console.log(err)
+    console.log(err);
+    ctx.body = err;
+    ctx.status = 500;
   }
 }
 
-exports.removeVote = async (ctx) => {
+exports.removeVote = async (ctx, db) => {
   const list = ctx.request.body.listId;
   const favorited = ctx.request.body.restaurantId;
   const user = ctx.request.body.username;
@@ -153,11 +155,13 @@ exports.removeVote = async (ctx) => {
     })
     ctx.status = 200;
   } catch (err) {
-    console.log(err)
+    console.log(err);
+    ctx.body = err;
+    ctx.status = 500;
   }
 }
 
-exports.loadVotesFromAllUsers = async (ctx) => {
+exports.loadVotesFromAllUsers = async (ctx, db) => {
   const listId = ctx.params.listId;
 
   try {
@@ -180,9 +184,23 @@ exports.loadVotesFromAllUsers = async (ctx) => {
       return acc;
     }
 
-    const voteCounts = objs.reduce(reducer, {}); // returns an object where key is the restaurantId and the value is the accumulated score
-    const props = Object.entries(voteCounts);
+    const favoritesOnLoad = await db.Favorites.findAll({ // get all favorites in sharedlist
+      include: [{
+        model: db.Lists,
+        where: { id: listId },
+        through: {
+          attributes: ['score'] // A list of attributes to select from the join model for belongsToMany relations
+        }
+      }]
+    })
 
+    const ids = favoritesOnLoad.map((res) => res.dataValues.id);
+
+    const voteCounts = objs.reduce(reducer, {}); // returns an object where key is the restaurantId and the value is the accumulated score
+    ids.forEach(el => {
+      if (!voteCounts[el]) voteCounts[el] = 0;
+    })
+    const props = Object.entries(voteCounts);
     const updated = props.map(prop => {
       return db.FavoritesLists.update(
         {
@@ -197,17 +215,19 @@ exports.loadVotesFromAllUsers = async (ctx) => {
     })
 
     const result = await Promise.all(updated);
-    console.log(result);
+    console.log('result loadVotesFromAllUsers', result)
 
     ctx.body = listId;
     ctx.status = 200;
   } catch (err) {
     console.log(err);
+    ctx.body = err;
+    ctx.status = 500;
   }
 }
 
 
-exports.loadFavoritesFromListWithScore = async (ctx) => {
+exports.loadFavoritesFromListWithScore = async (ctx, db) => {
   const listId = ctx.params.listId;
 
   try {
@@ -225,10 +245,13 @@ exports.loadFavoritesFromListWithScore = async (ctx) => {
       ...res.dataValues,
       score: res.dataValues.Lists[0].FavoritesLists.score
     }));
+    console.log('result loadFavoritesFromListWithScore', result)
 
     ctx.body = result;
     ctx.status = 200;
   } catch (err) {
     console.log(err);
+    ctx.body = err;
+    ctx.status = 500;
   }
 }
