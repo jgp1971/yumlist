@@ -1,6 +1,9 @@
 {
   "name": "yumlist",
   "version": "0.1.0",
+  "jest": {
+    "roots": ["server"]
+  },
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.15",
@@ -31,7 +34,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "client-test": "react-scripts test",
+    "server-test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -53,6 +57,7 @@
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "^7.12.4",
-    "eslint-plugin-standard": "^4.0.0"
+    "eslint-plugin-standard": "^4.0.0",
+    "jest": "^24.3.1"
   }
 }

@@ -1,21 +1,21 @@
-const yelp = require('yelp-fusion');
-const apiKey = 'h4_q1q5YJlDRpeOGv3eqZKyDjvxbcbneydPEJf5JXwvTz3VaLW9tWHymOGEBvqsWlgXCahNAiXlCHk__6lNhGXJiwfVOd5dBt3HKCxPb8bvykHOJ3BCzaneanFV0XHYx';
-const client = yelp.client(apiKey);
 const db = require('./models/index.js');
 
-exports.searchRestaurants = async (ctx) => {
-  const restaurant = ctx.request.body;
+exports.searchRestaurants = async (ctx, client) => {
+  const input = ctx.request.body;
   try {
-    await client.search(restaurant).then(response => {
+    await client.search(input).then(response => {
       const results = response.jsonBody.businesses;
       ctx.body = results;
+      ctx.status = 200;
     })
   } catch (err) {
     console.log(err);
+    ctx.body = err;
+    ctx.status = 500;
   }
 }
 
-exports.getListInfo = async (ctx) => {
+exports.getListInfo = async (ctx, db) => {
   const listId = ctx.params.listId;
   try {
     const listInfo = await db.Lists.findOne({
@@ -28,31 +28,13 @@ exports.getListInfo = async (ctx) => {
     ctx.status = 200;
   } catch (err) {
     console.log(err);
+    ctx.body = err;
+    ctx.status = 500;
   }
 }
 
-// this is only on yumlist
-exports.loadFavoritesFromList = async (ctx) => {
-  const listId = ctx.params.listId;
-  console.log('entered load favs from list and listid is', listId);
-
-  try {
-    const favoritesOnLoad = await db.Favorites.findAll({
-      include: [{
-        model: db.Lists,
-        where: { id: listId }
-      }]
-    });
-    console.log('favorite restaurants in list', favoritesOnLoad);
-    ctx.body = favoritesOnLoad;
-    ctx.status = 200;
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-
-exports.addToFavorites = async (ctx) => {
+//REVIEW! QUÉ HACE INCLUDE ATTRIBUTES
+exports.addToFavorites = async (ctx, db) => {
   const selectedRestaurant = ctx.request.body;
   const currentListId = ctx.params.list;
 
@@ -100,6 +82,8 @@ exports.addToFavorites = async (ctx) => {
 
     } catch (err) {
       console.log(err);
+      ctx.body = err;
+      ctx.status = 500;
     }
   }
 }
@@ -248,30 +232,3 @@ exports.loadFavoritesFromListWithScore = async (ctx) => {
     console.log(err);
   }
 }
-
-
-// exports.updateVote = async (ctx) => {
-//   const { listId, restaurantId, voted } = ctx.params;
-
-//   try {
-//     const selectedRestaurant = await db.FavoritesLists.findOne({
-//       where: {
-//         favoriteId: restaurantId,
-//         listId: listId
-//       }
-//     })
-//     .then(selectedRestaurant => {
-//       console.log('voted value', voted); // returns true or false
-//       return voted === 'true' ? selectedRestaurant.increment('score', {by: 1}) : selectedRestaurant.decrement('score', {by: 1});
-//     })
-//     .then(selectedRestaurant => {
-//       selectedRestaurant.reload();
-//       return selectedRestaurant;
-//     });
-//     ctx.body = selectedRestaurant;
-//     ctx.status = 201;
-//   } catch (err) {
-//     console.log(err);
-//     ctx.status = 400;
-//   }
-// }
