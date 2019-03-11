@@ -5,7 +5,6 @@ import SharedRestaurant from './sharedrestaurant';
 import logo from './../assets/yumlist-logo.png';
 import CreateUserModal from './createuser';
 import VotesSubmitted from './votessubmitted';
-import {withRouter} from 'react-router-dom';
 
 class SharedList extends Component {
 
@@ -112,5 +111,5 @@ const mapDispatchToProps = (dispatch) => ({
   voteForRestaurant: (restaurantId) => dispatch(voteForRestaurant(restaurantId))
 })
 
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SharedList));
+const ConnectedSharedList = connect(mapStateToProps, mapDispatchToProps)(SharedList);
+export { ConnectedSharedList, SharedList };

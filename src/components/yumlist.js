@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import FavoriteRestaurant from './favoriterestaurant.js';
 import { connect } from 'react-redux';
 import { removeFromList, loadFavorites } from '../actions.js';
-import { withRouter } from "react-router-dom";
 import Modal from './modal'
-import Searchbar from './searchbar.js';
+import { ConnectedSearchbar } from './searchbar.js';
 
 class Yumlist extends Component {
 
@@ -50,7 +49,7 @@ class Yumlist extends Component {
     const items = list.map(result => <FavoriteRestaurant rating={this.renderRating} score={this.score} list={this.state.listId} key={result.id} restaurant={result} removeFromList={this.props.removeFromList}/>);
 
     if (items.length) {
-      cta = <button className="share-list" onClick={this.shareList}>Share List</button>
+      cta = <button className="share-list" onClick={() => this.shareList()}>Share List</button>
     } else {
       cta = <h2>Go ahead and add some restaurants to your list!</h2>
     }
@@ -59,7 +58,7 @@ class Yumlist extends Component {
 
         <div className="yumlist-body-wrapper">
 
-          <Searchbar/>
+          <ConnectedSearchbar history={this.props.history}/>
 
           <Modal show={this.state.openDialog} onClose={this.shareList} listId={this.state.listId}/>
 
@@ -89,5 +88,5 @@ const mapDispatchToProps = (dispatch) => ({
   loadFavorites: (favorites) => dispatch(loadFavorites(favorites))
 })
 
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Yumlist));
+const ConnectedYumlist = connect(mapStateToProps, mapDispatchToProps)(Yumlist);
+export { ConnectedYumlist, Yumlist };

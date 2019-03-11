@@ -59,5 +59,5 @@ const mapDispatchToProps = (dispatch) => ({
   updateSearchResults: (results) => dispatch(updateSearchResults(results))
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Searchresult);
+const ConnectedSearchresult = connect(mapStateToProps, mapDispatchToProps)(Searchresult);
+export { ConnectedSearchresult, Searchresult };

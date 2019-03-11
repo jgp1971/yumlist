@@ -3,8 +3,6 @@ import SearchList from './searchlist';
 import { connect } from 'react-redux';
 import { updateSearchResults } from '../actions.js';
 import logo from './../assets/yumlist-logo.png';
-import { withRouter } from "react-router-dom";
-
 
 class Searchbar extends Component {
 
@@ -143,5 +141,5 @@ const mapDispatchToProps = (dispatch) => ({
   updateSearchResults: (results) => dispatch(updateSearchResults(results)),
 })
 
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Searchbar));
+const ConnectedSearchbar = connect(mapStateToProps, mapDispatchToProps)(Searchbar);
+export { ConnectedSearchbar, Searchbar };
