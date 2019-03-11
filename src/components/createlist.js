@@ -14,7 +14,7 @@ class CreateList extends Component {
     };
   }
 
-  updateSendEnable() {
+  updateSendEnable = () => {
     if (this.state.listTitle && this.state.listDescription) {
       this.setState({
         sendEnable: true
@@ -26,19 +26,19 @@ class CreateList extends Component {
     }
   }
 
-  updateTitle(evt) {
+  updateTitle = (evt) => {
     this.setState({
       listTitle: evt.target.value
-    }, () => this.updateSendEnable());
+    }, this.updateSendEnable);
   }
 
-  updateDescription(evt) {
+  updateDescription = (evt) => {
     this.setState({
       listDescription: evt.target.value
-    }, () => this.updateSendEnable());
+    }, this.updateSendEnable);
   }
 
-  saveList () {
+  saveList = () => {
     const url = 'http://localhost:3001';
     const listName = this.state.listTitle;
     const listDetails = this.state.listDescription;
@@ -70,22 +70,14 @@ class CreateList extends Component {
           <div className="create-list-wrapper">
             <h2>Create New List</h2>
             <div className="list-input">
-              <input type="text" autoComplete="off" className="list-details" placeholder="List Name" name="list-title" value={this.state.listTitle} onChange={evt => this.updateTitle(evt)}/>
-              <input type="text" autoComplete="off" className="list-details" placeholder="Your Name" name="list-details" value={this.state.listDescription} onChange={evt => this.updateDescription(evt)}/>
+              <input type="text" autoComplete="off" className="list-details" placeholder="List Name" name="list-title" value={this.state.listTitle} onChange={this.updateTitle}/>
+              <input type="text" autoComplete="off" className="list-details" placeholder="Your Name" name="list-details" value={this.state.listDescription} onChange={this.updateDescription}/>
             </div>
-
             <button className="save-list" disabled={!this.state.sendEnable} onClick={() => this.saveList()}>Save List</button>
-
           </div>
         </div>
     )
-
-
-
   }
-
-
-
 }
 
 
