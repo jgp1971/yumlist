@@ -12,7 +12,7 @@
 }
 
 .blankDiv {
-  height: 35px;
+  height: 40px;
 }
 
 p {
@@ -126,6 +126,7 @@ body {
 
 .create-list {
   margin: 0 auto;
+  padding-top: 0.1px;
   margin-top: 20px;
   font-family: 'Dosis', sans-serif;
   height: 100vh;
