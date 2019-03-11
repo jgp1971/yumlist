@@ -10,22 +10,35 @@ class CreateList extends Component {
       listTitle: '',
       listDescription: '',
       listId: uuid.v4(), // refactor this to generate UUID from server rather than client
+      sendEnable: false
     };
+  }
+
+  updateSendEnable() {
+    if (this.state.listTitle && this.state.listDescription) {
+      this.setState({
+        sendEnable: true
+      });
+    } else {
+      this.setState({
+        sendEnable: false
+      });
+    }
   }
 
   updateTitle(evt) {
     this.setState({
       listTitle: evt.target.value
-    });
+    }, () => this.updateSendEnable());
   }
 
   updateDescription(evt) {
     this.setState({
       listDescription: evt.target.value
-    });
+    }, () => this.updateSendEnable());
   }
 
-  saveList = () => {
+  saveList () {
     const url = 'http://localhost:3001';
     const listName = this.state.listTitle;
     const listDetails = this.state.listDescription;
@@ -61,7 +74,7 @@ class CreateList extends Component {
               <input type="text" autoComplete="off" className="list-details" placeholder="Your Name" name="list-details" value={this.state.listDescription} onChange={evt => this.updateDescription(evt)}/>
             </div>
 
-            <button className="save-list" onClick={this.saveList}>Save List</button>
+            <button className="save-list" disabled={!this.state.sendEnable} onClick={() => this.saveList()}>Save List</button>
 
           </div>
         </div>
