@@ -52,7 +52,6 @@ exports.addToFavorites = async (ctx, db) => {
 
   // then, check if the restaurant exists in this list
   const restaurantExistsInList = list.dataValues.Favorites.filter(restaurant => restaurant.id === selectedRestaurant.id);
-  console.log('restaurant exists in the list', restaurantExistsInList)
 
   if (restaurantExistsInList.length !== 0) {
     ctx.body = {
@@ -73,13 +72,11 @@ exports.addToFavorites = async (ctx, db) => {
         // if it exists, then just add it to the List
         await db.FavoritesLists.create({favoriteId: selectedRestaurant.id, listId: currentListId});
         ctx.body = selectedRestaurant;
-        console.log(selectedRestaurant);
         ctx.status = 200;
       } else {
         await db.Favorites.create(selectedRestaurant);
         await db.FavoritesLists.create({favoriteId: selectedRestaurant.id, listId: currentListId});
         ctx.body = selectedRestaurant;
-        console.log(selectedRestaurant);
         ctx.status = 200;
       }
 
@@ -119,7 +116,6 @@ exports.createList = async (ctx, db) => {
       id: submittedList.listId //refactor this to generate the UUID in the backend instead of the frontend
     })
     ctx.body = newList;
-    console.log('newList created', newList);
     ctx.status = 200;
   } catch (err) {
     console.log(err);
@@ -198,14 +194,15 @@ exports.loadVotesFromAllUsers = async (ctx, db) => {
         }
       }]
     })
-
+    
     const ids = favoritesOnLoad.map((res) => res.dataValues.id);
-
+    
     const voteCounts = objs.reduce(reducer, {}); // returns an object where key is the restaurantId and the value is the accumulated score
     ids.forEach(el => {
       if (!voteCounts[el]) voteCounts[el] = 0;
     })
     const props = Object.entries(voteCounts);
+
     const updated = props.map(prop => {
       return db.FavoritesLists.update(
         {
@@ -219,8 +216,7 @@ exports.loadVotesFromAllUsers = async (ctx, db) => {
       })
     })
 
-    const result = await Promise.all(updated);
-    console.log('result loadVotesFromAllUsers', result)
+    await Promise.all(updated);
 
     ctx.body = listId;
     ctx.status = 200;
@@ -230,7 +226,6 @@ exports.loadVotesFromAllUsers = async (ctx, db) => {
     ctx.status = 500;
   }
 }
-
 
 exports.loadFavoritesFromListWithScore = async (ctx, db) => {
   const listId = ctx.params.listId;
@@ -250,7 +245,6 @@ exports.loadFavoritesFromListWithScore = async (ctx, db) => {
       ...res.dataValues,
       score: res.dataValues.Lists[0].FavoritesLists.score
     }));
-    console.log('result loadFavoritesFromListWithScore', result)
 
     ctx.body = result;
     ctx.status = 200;
