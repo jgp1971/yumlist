@@ -48,11 +48,18 @@ describe('searchRestaurants', () => {
 
 describe('getListInfo', () => {
 
-  test('should respond 200 if the promise is true', async () => {
+  test('should respond 200 if the list is found', async () => {
     mock_db.Lists.findOne = jest.fn(() => new Promise((resolve, reject) => resolve(true)));
     await controller.getListInfo(mock_ctx, mock_db);
     expect(mock_ctx.status).toEqual(200);
     expect(mock_ctx.body).toBe(true);
+  });
+
+  test('should respond 404 if the list is not found', async () => {
+    mock_db.Lists.findOne = jest.fn(() => new Promise((resolve, reject) => resolve(false)));
+    await controller.getListInfo(mock_ctx, mock_db);
+    expect(mock_ctx.status).toEqual(404);
+    expect(mock_ctx.body.error).toBe('list not found');
   });
 
   test('should respond 500 if the promise is false', async () => {
@@ -80,7 +87,7 @@ describe('addToFavorites', () => {
     mock_db.Lists.find = jest.fn(() => new Promise((resolve, reject) => resolve(mockMockDb)));
     await controller.addToFavorites(mock_ctx, mock_db)
     expect(mock_ctx.status).toEqual(400);
-    expect(mock_ctx.body.error).toEqual(['Already added']);
+    expect(mock_ctx.body.error).toEqual('Already added');
   });
 
   test('should return 200 and not create the favorite if the favorite already exists', async () => {

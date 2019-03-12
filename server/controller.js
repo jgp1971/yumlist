@@ -23,7 +23,12 @@ exports.getListInfo = async (ctx, db) => {
       raw: true
     })
     ctx.body = listInfo;
-    ctx.status = 200;
+    if (listInfo) ctx.status = 200;
+    else {
+      ctx.body = {error: 'list not found'};
+      ctx.status = 404;
+    }
+
   } catch (err) {
     console.log(err);
     ctx.body = err;
@@ -51,7 +56,7 @@ exports.addToFavorites = async (ctx, db) => {
 
   if (restaurantExistsInList.length !== 0) {
     ctx.body = {
-      "error": ['Already added']
+      "error": 'Already added'
     }
     ctx.status = 400;
   } else {
