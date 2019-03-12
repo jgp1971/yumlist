@@ -36,8 +36,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "client-test": "react-scripts test",
-    "server-unit-test": "jest server/spec-unit/",
-    "server-integration-test": "jest server/spec-integration/",
+    "server-unit-test": "jest server/ --testPathIgnorePatterns */specs/*.js",
+    "server-integration-test": "jest server/specs/",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
