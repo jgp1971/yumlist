@@ -45,6 +45,7 @@ class Searchbar extends Component {
 
   searchRestaurants = (userInput) => {
     const url = 'http://localhost:3001';
+    this.props.updateSearchResults([]);
 
     const searchTerm = {
       "term": userInput,
@@ -98,7 +99,7 @@ class Searchbar extends Component {
   }
 
   handleSearchBar = () => {
-    if (this.props.searchList.length===0) {
+    if (this.props.searchList.length===0 || this.state.searchTerm === '') {
       return (
         <div>
           <div className="location">
