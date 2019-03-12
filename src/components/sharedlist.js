@@ -14,6 +14,7 @@ class SharedList extends Component {
       listId: window.location.pathname.slice('/share/'.length),
       listName: '',
       listDetails: '',
+      listLocation: '',
       username: '',
       voted: '',
       createUserDialog: true,
@@ -57,7 +58,7 @@ class SharedList extends Component {
     fetch(`${this.state.url}/${listId}`)
       .then(res => res.json())
       .then(res => {
-        this.setState({listName: res.listname, listDetails: res.listdetails }, () => {
+        this.setState({listName: res.listname, listDetails: res.listdetails, listLocation: res.listlocation }, () => {
           this.getRestaurants(this.state.listId)
         })})
   }
@@ -89,6 +90,15 @@ class SharedList extends Component {
   render() {
 
     const list = this.props.favoritesList;
+    list.sort((a,b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
     const items = list.map(result => <SharedRestaurant score={result.score} list={this.state.listId} key={result.id + this.state.listId} username={this.state.username} restaurant={result} reloadScore={this.getRestaurants}/>);
 
     return (
@@ -97,7 +107,7 @@ class SharedList extends Component {
 
         <VotesSubmitted show={this.state.votesSubmitted} onClose={this.closeDialog}/>
 
-        <CreateUserModal createUser={this.createUser} show={this.state.createUserDialog} listId={this.state.listId} listDetails={this.state.listDetails} listName={this.state.listName}/>
+        <CreateUserModal createUser={this.createUser} show={this.state.createUserDialog} listId={this.state.listId} listDetails={this.state.listDetails} listName={this.state.listName} listLocation={this.state.listLocation}/>
 
         <img src={logo} alt="Logo" className="yumlist-logo" onClick={this.returnHome}/>
         <div className="sharedlist-items">

@@ -14,6 +14,7 @@ class Yumlist extends Component {
       listId: this.props.match.params.id, // this is working!
       listName: '',
       listDetails: '',
+      listLocation: '',
       url: 'http://localhost:3001'
     };
 
@@ -25,7 +26,7 @@ class Yumlist extends Component {
     fetch(`${this.state.url}/${listId}`)
       .then(res => res.json())
       .then(res => {
-        this.setState({listName: res.listname, listDetails: res.listdetails }, () => {
+        this.setState({listName: res.listname, listDetails: res.listdetails, listLocation: res.listlocation }, () => {
           this.loadRestaurantsfromList(this.state.listId) //remember you need to pass a callback to this.setState
         })})
   }
@@ -59,6 +60,17 @@ class Yumlist extends Component {
   render() {
     let cta;
     const list = this.props.favoritesList;
+
+    list.sort((a,b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    });
+
     const items = list.map(result => <FavoriteRestaurant rating={this.renderRating} score={this.score} list={this.state.listId} key={result.id} restaurant={result} removeFromList={this.props.removeFromList}/>);
 
     if (items.length) {
@@ -71,7 +83,7 @@ class Yumlist extends Component {
 
         <div className="yumlist-body-wrapper">
 
-          <ConnectedSearchbar history={this.props.history}/>
+          <ConnectedSearchbar history={this.props.history} location={this.state.listLocation}/>
 
           <Modal show={this.state.openDialog} onClose={this.shareList} listId={this.state.listId}/>
 

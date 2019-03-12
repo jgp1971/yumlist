@@ -11,7 +11,7 @@ describe('unit test component CreateList', () => {
     expect(wrapper.find('img').length).toBe(1);
     expect(wrapper.find('div').length).toBe(3);
     expect(wrapper.find('h2').length).toBe(1);
-    expect(wrapper.find('input').length).toBe(2);
+    expect(wrapper.find('input').length).toBe(3);
     expect(wrapper.find('button').length).toBe(1);
   });
 
@@ -20,6 +20,8 @@ describe('unit test component CreateList', () => {
     firstInput.simulate('change', { target: { value: 'aa' } })
     const secondInput = wrapper.find({ name: 'list-details' })
     secondInput.simulate('change', { target: { value: 'aa' } })
+    const thirdInput = wrapper.find({ name: 'list-location' })
+    thirdInput.simulate('change', { target: { value: 'aa' } })
     wrapper.instance().updateSendEnable();
     const spy = jest.spyOn(wrapper.instance(), 'saveList');
     const button = wrapper.find('button')
@@ -32,6 +34,8 @@ describe('unit test component CreateList', () => {
     firstInput.simulate('change', { target: { value: '' } })
     const secondInput = wrapper.find({ name: 'list-details' })
     secondInput.simulate('change', { target: { value: 'aa' } })
+    const thirdInput = wrapper.find({ name: 'list-location' })
+    thirdInput.simulate('change', { target: { value: 'aa' } })
     wrapper.instance().updateSendEnable();
     const spy = jest.spyOn(wrapper.instance(), 'saveList');
     const button = wrapper.find('button')

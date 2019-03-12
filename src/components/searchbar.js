@@ -49,7 +49,7 @@ class Searchbar extends Component {
     const searchTerm = {
       "term": userInput,
       "categories": "restaurants, bars, food",
-      "location": "barcelona",
+      "location": this.props.location,
       "sort_by": "best_match",
       "limit": 5
     }
@@ -102,7 +102,7 @@ class Searchbar extends Component {
       return (
         <div>
           <div className="location">
-            <p className="current-location">Barcelona, ES</p>
+            <p className="current-location">{this.props.location}</p>
             <p className="change-location">Change Location</p>
           </div>
           {/* Add blanck element so that results do not move searchBar */}

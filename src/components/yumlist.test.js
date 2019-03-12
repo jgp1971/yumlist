@@ -32,8 +32,6 @@ describe('unit test component Yumlist', () => {
 
   it('all components are present', () => {
 
-    // console.log(wrapper.debug());
-
     expect(wrapper.find(ConnectedSearchbar).length).toBe(1);
     expect(wrapper.find('Modal').length).toBe(1);
     expect(wrapper.find('img').length).toBe(0);
@@ -73,13 +71,9 @@ describe('unit test component Yumlist', () => {
       <Yumlist {...props} />
     );
     expect(wrapper.find('button.share-list').length).toBe(1);
-
-    console.log(wrapper.debug())
     const spy = jest.spyOn(wrapper.instance(), 'shareList');
     const button = wrapper.find('button.share-list')
-    console.log(button);
     button.simulate('click')
-
     expect(spy).toHaveBeenCalled();
 
   });

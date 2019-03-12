@@ -113,6 +113,7 @@ exports.createList = async (ctx, db) => {
     const newList = await db.Lists.create({
       listname: submittedList.listname,
       listdetails: submittedList.listdetails,
+      listlocation: submittedList.listlocation,
       id: submittedList.listId //refactor this to generate the UUID in the backend instead of the frontend
     })
     ctx.body = newList;
@@ -194,9 +195,9 @@ exports.loadVotesFromAllUsers = async (ctx, db) => {
         }
       }]
     })
-    
+
     const ids = favoritesOnLoad.map((res) => res.dataValues.id);
-    
+
     const voteCounts = objs.reduce(reducer, {}); // returns an object where key is the restaurantId and the value is the accumulated score
     ids.forEach(el => {
       if (!voteCounts[el]) voteCounts[el] = 0;
