@@ -16,6 +16,8 @@ class Yumlist extends Component {
       listDetails: '',
       url: 'http://localhost:3001'
     };
+
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   getListInfo = (listId) => { //runs on componentDidMount
@@ -35,8 +37,19 @@ class Yumlist extends Component {
       .then(res => this.props.loadFavorites(res))
   }
 
+  handleClickOutside(event) {
+    if (event.target.classList.contains('backdrop')) {
+      this.shareList();
+    }
+  }
+
   componentDidMount() {
     this.getListInfo(this.state.listId);
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
   }
 
   shareList = () => {

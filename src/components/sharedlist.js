@@ -10,22 +10,35 @@ class SharedList extends Component {
 
   constructor(props) {
     super(props)
-      this.state = {
-        listId: window.location.pathname.slice('/share/'.length),
-        listName: '',
-        listDetails: '',
-        username: '',
-        voted: '',
-        createUserDialog: true,
-        votesSubmitted: false, // to open a dialog to confirm sharing
-        url: 'http://localhost:3001'
-      }
+    this.state = {
+      listId: window.location.pathname.slice('/share/'.length),
+      listName: '',
+      listDetails: '',
+      username: '',
+      voted: '',
+      createUserDialog: true,
+      votesSubmitted: false, // to open a dialog to confirm sharing
+      url: 'http://localhost:3001'
     }
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
 
-    componentDidMount() {
-      const list = this.state.listId;
-      this.getListInfo(list);
+  componentDidMount() {
+    const list = this.state.listId;
+    this.getListInfo(list);
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  handleClickOutside(event) {
+    let checkButton = event.target.children[0] ? event.target.children[0].children[0] : null;
+    if (checkButton && event.target.classList.contains('backdrop') && checkButton.localName==='img') {
+      this.closeDialog();
     }
+  }
 
   // get all restaurants from this particular list
   getRestaurants = (listId) => {
@@ -45,7 +58,6 @@ class SharedList extends Component {
       .then(res => res.json())
       .then(res => {
         this.setState({listName: res.listname, listDetails: res.listdetails }, () => {
-          // console.log('restaurants in list', res);
           this.getRestaurants(this.state.listId)
         })})
   }
