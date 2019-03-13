@@ -26,13 +26,14 @@
 
 1. (fix, design) (DONE) Responsive design, several visual bugs
 2. (add, design) (DONE) Main logo routes to create
-3. (add, design) Out-of-modal click to close
-4. (add, stability) Testing Backend
-5. (add, stability) Testing Frontend 
-6. (add, feature) Add location en create, y utilizarla en las queries
-7. (fix, feature) Fix search (a veces se queda pillado incluso cuando la text-box está vacía, mostrando un resultado anterior)
-8. (fix, feature) API change to Google Places (unreliable yelp behaviour)
-9. (add, feature) User db table + User creation(si no existe user, al añadir el creador a la tabla o al añadir mi nombre en una shared list) + User relation to lists + User remembering through cookies + User dashboard shows lists
+3. (add, design) (DONE) Out-of-modal click to close
+4. (add, stability) (DONE) Testing Backend
+5. (add, stability) (DONE) Testing Frontend 
+6. (add, feature) (DONE) Add location en create, y utilizarla en las queries
+7. (fix, feature) (DONE) Display restaurants in ordered fashions
+8. (fix, feature) (DONE) Fix search (a veces se queda pillado incluso cuando la text-box está vacía, mostrando un resultado anterior)
+9. (fix, feature) (WNF) API change to Google Places (unreliable yelp behaviour)
+10. (add, feature) (WNF) User db table + User creation(si no existe user, al añadir el creador a la tabla o al añadir mi nombre en una shared list) + User relation to lists + User remembering through cookies + User dashboard shows lists
 
 PARA COMPONENTES CONECTADOS SI SE QUIERE TESTEAR UNIT TESTING, EXPORTAR TANTO EL TRONCHO CONECTADO (QUE ES EL COMPONENTE QUE SE AÑADIRÁ EN LOS RENDERS DE MANERA NORMAL)
 
@@ -48,3 +49,12 @@ THIS PROPS HISTORY ES PASADO AUTO A LOS COMPOENNES DE CADA ROUTE POR EL ROUTER, 
 
 MIRAR EL MOCKSTORE PARA NO TENER QUE VOLVERSE LOCOS AL TESTEAR REDUX
 
+--
+
+EL PROBLEMA DE NECESITAR PONER ARROW FUNCTIONS EN LAS INVOCACIONES/REFERENCIAS A UN METODO DE UNA CLASE PARA QUE EL ESPÍA DETECTE LOS CLICKS, SE SOLUCIONA (YA SEA USANDO MOUNT/SHALLOW) ES PORQUE SIMULATE CLICK NO FUNCIONA, SI SE QUIERE SIMULAR UNA CALL, EXTRAERLO DE PROPS Y TIRAR PALANTE
+
+--
+
+SIMULATE CLICK PARECE BUGGEADO TANTO CON MOUNT COMO SHALLOW CON UN DISABLED BUTTON O COMPONENT, CON MOUNT LLEGO A FUNCIONAR TAL Y COMO QUERIAMOS PERO HABÍA QUE CAMBIAR LA INVOCACIÓN DEL MÉTODO DENTRO DE ONCLICK A UNA ARROW FUNCTION, Y ASÍ EL ESPÍA LA PODÍA DETECTAR
+
+EXTRAYENDOLO DE LOS PROPS Y HACIENDO ONCLICK, SIEMPRE SE LLAMA, Y POR TANTO EL ESPÍA SIEMPRE LA DETECTA, DISABLED O NO
