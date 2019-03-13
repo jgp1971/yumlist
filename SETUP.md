@@ -1,60 +1,14 @@
 # Yumlist - Legacy Project
 
-## Friction & Solutions
+## Developer Setup Guide (for macOS 10.14)
 
-1. 'postgres' role specified in 'config.json' as configured username.
-   1. Two ways of solving it:
-      1. Create role 'postgres' in PSQL.
-      2. Modify 'config.json' to point to localhost username.
-2. Sequelize was not creating the table structure on startup. Manual creation of tables and relations required.
-   1. Trataba de incrementar ids custom de tipo text, y entonces SQL buscaba un serial
-   2. Sync no habilitado en el index
-3. Falta rol postgres en la base de datos
-   1. Dos opciones: o crear rol en base de datos, o modificar config.json para que username sea LOCALUSERNAME (elegida esta última)
-4. Variables URL apuntan al valor del PC del developer previo específico
-   1. Sustituir localhost/sue-macbook-pro por nueva variable
-5. Necesidad de habilitar file sharing para poder testear (copiar url del local en nueva variable)
-   1. Developer debe habilitar file sharing y copiar su url-local en la variable exposedUrl
-
-## Developer Setup Guide
-
-1. asegurarse que las bases de datos referenciadas en el config.json existen
-   1. jest busca la base de datos de test automaticamente, así que asegurarse de que existe el config.json y tiene una base de datos de test. luego, hacer el chequeo de env = process.env.NODE_ENV || "development"890º 
-2. Instalar Jest es solo para backend, react-scripts busca solo tests dentro del SRC -> si se quiere usar enzyme con react-scripts, hay que generar un fichero setupTests en el src con el configure, el adaptar y jest-enzyme
-
-## Legacy Project Plan
-
-1. (fix, design) (DONE) Responsive design, several visual bugs
-2. (add, design) (DONE) Main logo routes to create
-3. (add, design) (DONE) Out-of-modal click to close
-4. (add, stability) (DONE) Testing Backend
-5. (add, stability) (DONE) Testing Frontend 
-6. (add, feature) (DONE) Add location en create, y utilizarla en las queries
-7. (fix, feature) (DONE) Display restaurants in ordered fashions
-8. (fix, feature) (DONE) Fix search (a veces se queda pillado incluso cuando la text-box está vacía, mostrando un resultado anterior)
-9. (fix, feature) (WNF) API change to Google Places (unreliable yelp behaviour)
-10. (add, feature) (WNF) User db table + User creation(si no existe user, al añadir el creador a la tabla o al añadir mi nombre en una shared list) + User relation to lists + User remembering through cookies + User dashboard shows lists
-
-PARA COMPONENTES CONECTADOS SI SE QUIERE TESTEAR UNIT TESTING, EXPORTAR TANTO EL TRONCHO CONECTADO (QUE ES EL COMPONENTE QUE SE AÑADIRÁ EN LOS RENDERS DE MANERA NORMAL)
-
-COMO LA CLASE EN SI, QUE ES LO QUE SE IMPORTARÁ EN EL UNIT TEST PARA PODER SER SHALLOW-RENDERED
-
-
-
-THIS PROPS HISTORY ES PASADO AUTO A LOS COMPOENNES DE CADA ROUTE POR EL ROUTER, Y SI QUEREMOS PASARLO A LOS HIJOS, EN PROPS
-
-
-
-# ARROW FUNCTION DEBERIA SER SOLO PARA METODOS Y LAS REFERENCIAS DEBERIAN SER SIEMPRE THIS.METHOD SIN NA MAS, PERO SI SE QUIERE COMPROBAR DENTRO DE UN SPY, PARA QUE LA SUITE DETECTE LA CALL, HAY QUE ENVOLVER LA REFERENCIA EN UNA ARROW FUNCTION
-
-MIRAR EL MOCKSTORE PARA NO TENER QUE VOLVERSE LOCOS AL TESTEAR REDUX
-
---
-
-EL PROBLEMA DE NECESITAR PONER ARROW FUNCTIONS EN LAS INVOCACIONES/REFERENCIAS A UN METODO DE UNA CLASE PARA QUE EL ESPÍA DETECTE LOS CLICKS, SE SOLUCIONA (YA SEA USANDO MOUNT/SHALLOW) ES PORQUE SIMULATE CLICK NO FUNCIONA, SI SE QUIERE SIMULAR UNA CALL, EXTRAERLO DE PROPS Y TIRAR PALANTE
-
---
-
-SIMULATE CLICK PARECE BUGGEADO TANTO CON MOUNT COMO SHALLOW CON UN DISABLED BUTTON O COMPONENT, CON MOUNT LLEGO A FUNCIONAR TAL Y COMO QUERIAMOS PERO HABÍA QUE CAMBIAR LA INVOCACIÓN DEL MÉTODO DENTRO DE ONCLICK A UNA ARROW FUNCTION, Y ASÍ EL ESPÍA LA PODÍA DETECTAR
-
-EXTRAYENDOLO DE LOS PROPS Y HACIENDO ONCLICK, SIEMPRE SE LLAMA, Y POR TANTO EL ESPÍA SIEMPRE LA DETECTA, DISABLED O NO
+1. Install PostgreSQL.
+2. Clone the **Yumlist** repository; run `npm install` on the root folder.
+3. Create the databases required by the config.json file: *yumlist* and *yumlist_test*. **Jest** automatically sets up the environment variable to *test*, so both databases must exist to ensure all functionality is correct.
+4. Set up a correct username for both *development* and *test* environments in the config.json:
+   1. Either set them up as the local administrator's *username*,
+   2. or create the *postgres* role in PostgreSQL.
+5. Open `System Preferences -> Sharing -> File Sharing`. 
+   1. Tick the *File Sharing* option.
+   2. Copy the URL located at the top of the preferences, after `Computers on your local network can access your computer at:`. It should resemble *Admins-MacBook-Pro.local*
+   3. Paste this copied URL in the *LOCALURL* variable of the **.env** file.
