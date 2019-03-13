@@ -1,10 +1,6 @@
 import React from 'react';
-import {mount, shallow, render} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import {Yumlist} from './yumlist';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import reducers from '../reducers';
-import { MemoryRouter } from "react-router-dom";
 import { ConnectedSearchbar } from './searchbar'
 
 const props = {
@@ -16,17 +12,11 @@ const props = {
   favoritesList: []
 }
 
-let store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
-
 describe('unit test component Yumlist', () => {
   let wrapper;
   beforeEach(() => {
     wrapper = shallow (
-      // <Provider store={store}>
-      //   <MemoryRouter initialEntries={[ '/list/:id' ]}>
-          <Yumlist {...props} />
-      //   </MemoryRouter>
-      // </Provider>
+      <Yumlist {...props} />
     );
   });
 

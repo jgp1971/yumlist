@@ -4,9 +4,13 @@ import CreateList from './createlist';
 
 describe('unit test component CreateList', () => {
   let wrapper;
+  let button;
+
   beforeEach(() => {
-    wrapper = mount(<CreateList />);
+    wrapper = shallow(<CreateList />);
+    button = wrapper.find('button');
   });
+
   it('all components are present', () => {
     expect(wrapper.find('img').length).toBe(1);
     expect(wrapper.find('div').length).toBe(3);
@@ -15,7 +19,7 @@ describe('unit test component CreateList', () => {
     expect(wrapper.find('button').length).toBe(1);
   });
 
-  it('calls saveList when clicked if both inputs have text', () => {
+  it('saveList button is enabled if all input are filled in', () => {
     const firstInput = wrapper.find({ name: 'list-title' })
     firstInput.simulate('change', { target: { value: 'aa' } })
     const secondInput = wrapper.find({ name: 'list-details' })
@@ -23,13 +27,11 @@ describe('unit test component CreateList', () => {
     const thirdInput = wrapper.find({ name: 'list-location' })
     thirdInput.simulate('change', { target: { value: 'aa' } })
     wrapper.instance().updateSendEnable();
-    const spy = jest.spyOn(wrapper.instance(), 'saveList');
-    const button = wrapper.find('button')
-    button.simulate('click')
-    expect(spy).toHaveBeenCalled();
+    expect(wrapper.find('button').at(0).props().disabled).toBe(false);
+
   });
 
-  it('does not call saveList when clicked if any inputs is empty', () => {
+  it('saveList button is disabled if at least one input is missing', () => {
     const firstInput = wrapper.find({ name: 'list-title' })
     firstInput.simulate('change', { target: { value: '' } })
     const secondInput = wrapper.find({ name: 'list-details' })
@@ -37,10 +39,7 @@ describe('unit test component CreateList', () => {
     const thirdInput = wrapper.find({ name: 'list-location' })
     thirdInput.simulate('change', { target: { value: 'aa' } })
     wrapper.instance().updateSendEnable();
-    const spy = jest.spyOn(wrapper.instance(), 'saveList');
-    const button = wrapper.find('button')
-    button.simulate('click')
-    expect(spy).not.toHaveBeenCalled();
+    expect(wrapper.find('button').at(0).props().disabled).toBe(true);
   });
 });
 

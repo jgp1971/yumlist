@@ -83,7 +83,7 @@ class CreateList extends Component {
               <input type="text" autoComplete="off" className="list-details" placeholder="Your Name" name="list-details" value={this.state.listDescription} onChange={this.updateDescription}/>
               <input type="text" autoComplete="off" className="list-details" placeholder="List Location" name="list-location" value={this.state.listLocation} onChange={this.updateLocation}/>
             </div>
-            <button className="save-list" disabled={!this.state.sendEnable} onClick={() => this.saveList()}>Save List</button>
+            <button className="save-list" disabled={!this.state.sendEnable} onClick={this.saveList}>Save List</button>
           </div>
         </div>
     )
