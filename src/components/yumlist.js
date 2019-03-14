@@ -15,7 +15,7 @@ class Yumlist extends Component {
       listName: '',
       listDetails: '',
       listLocation: '',
-      url: 'http://localhost:3001'
+      url: `http://${process.env.REACT_APP_LOCAL_URL}:3001`
     };
 
     this.handleClickOutside = this.handleClickOutside.bind(this);
