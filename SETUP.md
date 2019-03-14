@@ -8,7 +8,9 @@
 4. Set up a correct username for both *development* and *test* environments in the config.json:
    1. Either set them up as the local administrator's *username*,
    2. or create the *postgres* role in PostgreSQL.
-5. Open `System Preferences -> Sharing -> File Sharing`.
+5. Create a **.env** file at the root of your project, and add a new *SKIP_PREFLIGHT_CHECK* variable with **true** as its value.
+6. Open `System Preferences -> Sharing -> File Sharing`.
    1. Tick the *File Sharing* option.
    2. Copy the URL located at the top of the preferences, after `Computers on your local network can access your computer at:`. It should resemble *Admins-MacBook-Pro.local*
-   3. Paste this copied URL in the *REACT_APP_LOCAL_URL* variable of the **.env** file.
+   3. Paste this copied URL into a new *REACT_APP_LOCAL_URL* variable of the **.env** file if you want to enable sharing lists. Otherwise, create the *REACT_APP_LOCAL_URL* variable with **localhost** as its value.
+   4. Create a variable called *YELP_KEY* and set as its value the key provided by your administrator.
