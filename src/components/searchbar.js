@@ -3,8 +3,6 @@ import SearchList from './searchlist';
 import { connect } from 'react-redux';
 import { updateSearchResults } from '../actions.js';
 import logo from './../assets/yumlist-logo.png';
-import { withRouter } from "react-router-dom";
-
 
 class Searchbar extends Component {
 
@@ -46,12 +44,13 @@ class Searchbar extends Component {
 
 
   searchRestaurants = (userInput) => {
-    const url = 'http://localhost:3001';
+    const url = `http://${process.env.REACT_APP_LOCAL_URL}:3001`;
+    this.props.updateSearchResults([]);
 
     const searchTerm = {
       "term": userInput,
       "categories": "restaurants, bars, food",
-      "location": "barcelona",
+      "location": this.props.location,
       "sort_by": "best_match",
       "limit": 5
     }
@@ -100,11 +99,11 @@ class Searchbar extends Component {
   }
 
   handleSearchBar = () => {
-    if (this.props.searchList.length===0) {
+    if (this.props.searchList.length===0 || this.state.searchTerm === '') {
       return (
         <div>
           <div className="location">
-            <p className="current-location">Barcelona, ES</p>
+            <p className="current-location">{this.props.location}</p>
             <p className="change-location">Change Location</p>
           </div>
           {/* Add blanck element so that results do not move searchBar */}
@@ -143,5 +142,5 @@ const mapDispatchToProps = (dispatch) => ({
   updateSearchResults: (results) => dispatch(updateSearchResults(results)),
 })
 
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Searchbar));
+const ConnectedSearchbar = connect(mapStateToProps, mapDispatchToProps)(Searchbar);
+export { ConnectedSearchbar, Searchbar };

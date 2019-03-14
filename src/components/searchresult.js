@@ -18,7 +18,7 @@ const Searchresult = ({restaurant, ...props}) => {
 
     //REVIEW! USO DE PROPS VS THIS.PROPS
     const list = window.location.pathname.slice('/list/'.length);
-    const url = 'http://localhost:3001';
+    const url = `http://${process.env.REACT_APP_LOCAL_URL}:3001`;
 
     fetch(`${url}/addtofavorites/${list}`, {
       method: 'POST',
@@ -59,5 +59,5 @@ const mapDispatchToProps = (dispatch) => ({
   updateSearchResults: (results) => dispatch(updateSearchResults(results))
 })
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Searchresult);
+const ConnectedSearchresult = connect(mapStateToProps, mapDispatchToProps)(Searchresult);
+export { ConnectedSearchresult, Searchresult };

@@ -4,7 +4,7 @@
   --yumlist-color: #C81465;
   --gray: gray;
   --secondary-green: #26BDC3;
-
+  --secondary-green-shadow: rgb(142, 204, 206);
 }
 
 * {
@@ -12,7 +12,7 @@
 }
 
 .blankDiv {
-  height: 35px;
+  height: 40px;
 }
 
 p {
@@ -126,6 +126,7 @@ body {
 
 .create-list {
   margin: 0 auto;
+  padding-top: 0.1px;
   margin-top: 20px;
   font-family: 'Dosis', sans-serif;
   height: 100vh;
@@ -198,6 +199,25 @@ body {
   font-size: 1.2em;
   font-weight: 700;
   border: 0px;
+  font-weight: 500;
+  color: #000;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.save-list:disabled {
+  background: rgb(209, 209, 209);
+}
+
+.save-list:hover:enabled {
+  background-color: var(--secondary-green);
+  box-shadow: 0px 15px 20px var(--secondary-green-shadow);
+  color: #fff;
+  transform: translateY(-7px);
 }
 
 /* yumlist */
